@@ -33,4 +33,4 @@ For suggestions or bug reports, open a GitHub Issue with a clear description and
 
 ## License
 
-No license has been added yet. Until the repository owner chooses and adds a license, standard copyright applies. Do not assume permission to reuse, modify, or redistribute this project.
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for the full license text.
