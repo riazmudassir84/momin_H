@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A playful Love and Romance score generator for entertainment.">
+  <meta name="theme-color" content="#f06292">
+  <title>Love &amp; Romance Calculator</title>
+  <style>
+    :root {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #342b33;
+      background: #f7e7ef;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem 1rem;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #f8a5c2, #9bc9f5, #a9dfb0);
+      background-size: 300% 300%;
+      animation: gradient-shift 15s ease infinite;
+    }
+    .hearts {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hearts span {
+      position: absolute;
+      top: -2rem;
+      left: var(--x);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.5rem;
+      animation: float-down 9s linear infinite;
+      animation-delay: var(--delay);
+    }
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 28rem);
+      padding: clamp(1.5rem, 5vw, 2rem);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      border-radius: 1.25rem;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 1rem 2.5rem rgba(61, 39, 57, 0.18);
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 0.5rem;
+      color: #a92761;
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+    .intro {
+      margin: 0 0 1.5rem;
+      color: #5f5360;
+      line-height: 1.5;
+    }
+    .field { margin: 1rem 0; text-align: left; }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 700;
+    }
+    input {
+      width: 100%;
+      min-height: 2.9rem;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid #c9b8c5;
+      border-radius: 0.65rem;
+      background: #fff;
+      color: #342b33;
+      font: inherit;
+    }
+    input:focus-visible, button:focus-visible {
+      outline: 3px solid #5534a5;
+      outline-offset: 3px;
+    }
+    .actions {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+    button {
+      min-height: 2.9rem;
+      padding: 0.75rem 1rem;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #e83e83, #e8a52e);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 160ms ease, filter 160ms ease;
+    }
+    button:hover { filter: brightness(1.04); transform: translateY(-2px); }
+    .result {
+      min-height: 3.5rem;
+      margin-top: 1.25rem;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      background: #fff0f6;
+      color: #7d1c4c;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+    .note {
+      margin: 1rem 0 0;
+      color: #655b65;
+      font-size: 0.8rem;
+      line-height: 1.45;
+    }
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    @keyframes float-down {
+      from { transform: translateY(-5vh); opacity: 0; }
+      15% { opacity: 0.85; }
+      to { transform: translateY(110vh); opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" aria-hidden="true">
+    <span style="--x: 10%; --delay: 0s;">💖</span>
+    <span style="--x: 30%; --delay: 2s;">💘</span>
+    <span style="--x: 50%; --delay: 4s;">💝</span>
+    <span style="--x: 70%; --delay: 1s;">💕</span>
+    <span style="--x: 90%; --delay: 3s;">💗</span>
+  </div>
+
+  <main class="card">
+    <h1>💖 Love &amp; Romance Calculator</h1>
+    <p class="intro">Enter two names to generate a playful score just for fun.</p>
+
+    <form id="score-form">
+      <div class="field">
+        <label for="name-one">Your name</label>
+        <input id="name-one" name="name-one" type="text" maxlength="40"
+               autocomplete="given-name" placeholder="Enter your name" required>
+      </div>
+      <div class="field">
+        <label for="name-two">Partner's name</label>
+        <input id="name-two" name="name-two" type="text" maxlength="40"
+               placeholder="Enter your partner's name" required>
+      </div>
+      <div class="actions">
+        <button type="button" data-score-type="Love">Check Love %</button>
+        <button type="button" data-score-type="Romance">Check Romance %</button>
+      </div>
+    </form>
+
+    <p class="result" id="result" role="status" aria-live="polite">
+      Your result will appear here.
+    </p>
+    <p class="note">
+      For entertainment only. These randomly generated scores do not measure
+      real compatibility or predict relationship outcomes.
+    </p>
+  </main>
+
+  <script>
+    const nameOneInput = document.querySelector("#name-one");
+    const nameTwoInput = document.querySelector("#name-two");
+    const result = document.querySelector("#result");
+    const scoreButtons = document.querySelectorAll("[data-score-type]");
+
+    function showScore(type) {
+      const firstName = nameOneInput.value.trim();
+      const secondName = nameTwoInput.value.trim();
+
+      if (!firstName || !secondName) {
+        result.textContent = "Please enter both names before generating a score.";
+        (!firstName ? nameOneInput : nameTwoInput).focus();
+        return;
+      }
+
+      const percentage = Math.floor(Math.random() * 101);
+      result.textContent =
+        `${type} score for ${firstName} and ${secondName}: ${percentage}% 💖`;
+    }
+
+    scoreButtons.forEach((button) => {
+      button.addEventListener("click", () => showScore(button.dataset.scoreType));
+    });
+  </script>
+</body>
+</html>
